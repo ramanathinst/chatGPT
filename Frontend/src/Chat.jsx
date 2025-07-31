@@ -7,11 +7,16 @@ import "highlight.js/styles/github-dark.css"
 
 function Chat () {
 
-   const { prevChats , newChats , reply } = useContext(MyContext)
+   const { prevChats , newChat , reply } = useContext(MyContext)
 
     const [ latestReply , setLatestReply ] = useState(null);
 
     useEffect(() => {
+        if(reply === null) {
+            setLatestReply(null);
+            return;
+        }
+
         if(!prevChats.length) return;
 
         const content = reply.split(" ");
@@ -29,7 +34,7 @@ function Chat () {
 
     return  (
         <>
-        { newChats && <p> Start a new chat!</p>}
+        { newChat && <p> Start a new chat!</p>}
 
         <div className="chats">
 
@@ -45,13 +50,24 @@ function Chat () {
                     )
                 }
 
-                {
-                    prevChats?.length > 0 && latestReply !== null &&
-                        <div className="gptDiv" key={"typing"}>
-                      <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{latestReply}</ReactMarkdown>
-                        </div>
-                }
 
+                {
+                    prevChats.length > 0 && (
+                        <>
+                            {
+                                latestReply === null ? (
+                                   <div className="gptDiv" key={"non-typing"}>
+                                        <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{prevChats[prevChats.length-1].content}</ReactMarkdown>
+                                    </div> 
+                                ) : (
+                                    <div className="gptDiv" key={"typing"}>
+                                        <ReactMarkdown rehypePlugins={[rehypeHighlight]}>{latestReply}</ReactMarkdown>
+                                    </div>
+                                )
+                            }
+                        </>
+                    )
+                }
         </div>
         </>
     )
