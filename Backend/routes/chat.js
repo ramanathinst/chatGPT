@@ -62,7 +62,7 @@ router.delete("/thread/:threadId", async (req, res) => {
 router.post("/chat" , async(req ,res ) => {
   const { threadId , message } = req.body;
 
-  if(!threadId & !message ) {
+  if(!threadId && !message ) {
     return res.status(400).json({
       error: "Thread Id and Message fiels are requird!"
     })
@@ -93,7 +93,7 @@ router.post("/chat" , async(req ,res ) => {
   } catch (error) {
     console.log(error , "Catching the chat error")
     res.status(500).json({
-    message :  "Something went wrong enternal error!"
+    message :  "Something went wrong!"
     })
   }
 })

@@ -23,6 +23,7 @@ const ThreadSchema = new mongoose.Schema({
     },
     title: {
         type: String,
+        required: true
     },
     messages: [MessageSchema],
     createdAt: {
